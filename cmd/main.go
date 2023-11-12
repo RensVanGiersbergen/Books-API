@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 
+	"github.com/RensVanGiersbergen/Books-API/internal/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -22,10 +23,17 @@ var books = []Book{
 }
 
 func main() {
+	//Setup router
 	router := gin.Default()
+
+	//Set middleware
+	router.Use(middleware.LoggerMiddleware())
+
+	//Define endpoints
 	router.GET("/books", getAlbums)
 	router.POST("/books", postBook)
 
+	//Run server
 	router.Run("0.0.0.0:8080")
 }
 
